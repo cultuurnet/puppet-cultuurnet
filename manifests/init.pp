@@ -4,6 +4,6 @@ class cultuurnet {
   class {
     '::cultuurnet::firewall':;
     '::cultuurnet::sshkeys':;
-    '::cultuurnet::user':;
+    '::cultuurnet::users':;
   }
 }
