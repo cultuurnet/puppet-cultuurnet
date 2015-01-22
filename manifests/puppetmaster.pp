@@ -9,7 +9,7 @@ class cultuurnet::puppetmaster () {
     '::apache::mod::ssl':;
   }
 
-  file { '/etc/apache2/sites-enabled/puppetmaster.conf':
+  file { '/etc/apache2/sites-available/puppetmaster.conf':
     ensure  => present,
     owner   => 0,
     group   => 0,
