@@ -2,6 +2,7 @@
 #
 class cultuurnet {
   class {
+    '::cultuurnet::firewall':;
     '::cultuurnet::sshkeys':;
   }
 }
