@@ -15,6 +15,11 @@ class cultuurnet::puppetmaster () {
     group   => 0,
     mode    => '0644',
     content => template('cultuurnet/apache2-puppetmaster.conf.erb'),
+  } ->
+
+  file { '/etc/apache2/sites-enabled/puppetmaster.conf':
+    ensure => link,
+    target => '/etc/apache2/sites-available/puppetmaster.conf',
   }
 }
 
