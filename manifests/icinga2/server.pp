@@ -9,7 +9,7 @@ class cultuurnet::icinga2::server (
   $server_db_type = 'pgsql',
 ) {
   require ::icinga2
-  require ::repo::icinga
+  require ::cultuurnet::repo::icinga2
 
   class { '::icinga2::server':
     db_host                       => $db_host,
