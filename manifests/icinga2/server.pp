@@ -74,18 +74,18 @@ class cultuurnet::icinga2::server (
   }
 
   create_resources(
-    ::icinga2::object::applynotificationtohost,
-    hiera_hash('icinga2::object::applynotificationtohost', {})
+    ::icinga2::object::apply_notification_to_host,
+    hiera_hash('icinga2::object::apply_notification_to_host', {})
   )
 
   create_resources(
-    ::icinga2::object::applynotificationtoservice,
-    hiera_hash('icinga2::object::applynotificationtoservice', {})
+    ::icinga2::object::apply_notification_to_service,
+    hiera_hash('icinga2::object::apply_notification_to_service', {})
   )
 
   create_resources(
-    ::icinga2::object::applyservicetohost,
-    hiera_hash('icinga2::object::applyservicetohost', {})
+    ::icinga2::object::apply_service_to_host,
+    hiera_hash('icinga2::object::apply_service_to_host', {})
   )
 
   create_resources(
