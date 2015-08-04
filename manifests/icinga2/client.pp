@@ -1,7 +1,6 @@
 # == Class: cultuurnet::icinga2::client
 #
 class cultuurnet::icinga2::client () {
-  require ::icinga2
   require ::icinga2::nrpe
 
   if ! defined(Class['::cultuurnet::icinga2::server']) {
