@@ -20,11 +20,6 @@ class cultuurnet::icinga2::client () {
   }
 
   create_resources(
-    ::icinga2::object::checkcommand,
-    hiera_hash('icinga2::object::checkcommand', {})
-  )
-
-  create_resources(
     ::icinga2::checkplugin,
     hiera_hash('icinga2::checkplugin', {})
   )
