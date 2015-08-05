@@ -12,12 +12,9 @@ class cultuurnet::icinga2::client () {
       target_file_name => "${::fqdn}.conf",
       vars             => {
         distro              => $::operatingsystem,
-        esx_version         => $::esx_version,
         os                  => $::kernel,
         virtual_machine     => $::is_virtual,
-        vmware              => $::vmware,
-        vmware_patchlevel   => $::vmware_patchlevel,
-        vmwaretools_version => $::vmwaretools_version,
+        puppet_certname     => $::clientcert,
       },
     }
   }
