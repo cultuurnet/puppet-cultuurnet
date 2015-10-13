@@ -200,5 +200,13 @@ class cultuurnet::icinga2::server (
   Icinga2::Object::Servicegroup <<||>>
   Icinga2::Object::User <<||>>
   Icinga2::Object::Usergroup <<||>>
+
+  # Remove hosts that are deactivated in PuppetDB
+  $deactivated = deactivated_nodes()
+
+  ::icinga::object::host { $deactivated:
+    target_dir         => '/etc/icinga2/objects/hosts',
+    target_file_ensure => 'absent'
+  }
 }
 
