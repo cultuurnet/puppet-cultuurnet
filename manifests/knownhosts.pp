@@ -1,7 +1,9 @@
 class cultuurnet::knownhosts {
 
-  @@sshkey { $::ipaddress_eth0:
-    type => 'rsa',
-    key  => $::sshrsakey
+  if $settings::storeconfigs {
+    @@sshkey { $::ipaddress_eth0:
+      type => 'rsa',
+      key  => $::sshrsakey
+    }
   }
 }
