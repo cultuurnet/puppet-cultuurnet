@@ -4,6 +4,4 @@ class cultuurnet::knownhosts {
     type => 'rsa',
     key  => $::sshrsakey
   }
-
-  Sshkey <<| |>>
 }
