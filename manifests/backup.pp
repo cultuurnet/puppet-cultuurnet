@@ -1,6 +1,7 @@
 class cultuurnet::backup(
   $repositories       = { 'default' => { path => '/var/backups/borgbackup' } },
   $configurations     = { 'filesystem' => { source_directories => '/root', repository => '/var/backups/borgbackup' } },
+  $privkey            = '',
   $server             = false,
   $server_user        = 'root',
   $server_backupdir   = '/var/backups',
@@ -17,6 +18,14 @@ class cultuurnet::backup(
 
   class { 'atticmatic':
     configurations => $configurations
+  }
+
+  file { '/root/.ssh/backup_rsa':
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0400',
+    content => $privkey
   }
 
   if $server {
