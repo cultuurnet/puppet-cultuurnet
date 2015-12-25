@@ -10,7 +10,7 @@ class cultuurnet::backup(
 )
 {
 
-  $repos = inline_template("<%= @configuration.each_pair { |key, value| value.keep_if { |k, v| k == 'repository' or k == 'encryption' or k == 'passphrase' or k == 'borg_rsh' } } %>)
+  $repos = inline_template("<%= @configuration.each_pair { |key, value| value.keep_if { |k, v| k == 'repository' or k == 'encryption' or k == 'passphrase' or k == 'borg_rsh' } } %>")
 
   class { 'borgbackup':
     repositories => $repos
