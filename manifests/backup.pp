@@ -9,8 +9,9 @@ class cultuurnet::backup(
   $server_hostname    = undef
 )
 {
-
-  $repos = inline_template("<%= @configuration.each_pair { |key, value| value.keep_if { |k, v| k == 'repository' or k == 'encryption' or k == 'passphrase' or k == 'borg_rsh' } } %>")
+  # TODO: revisit when Puppet 4.0 is installed. This hash manipulation is
+  # extremely ugly. Iteration will hopefully clean this.
+  $repos = parsejson(regsubst(inline_template("<%= ${configuration}.each_pair { |key, value| value.keep_if { |k, v| k == 'repository' or k == 'encryption' or k == 'passphrase' or k == 'borg_rsh' } } %>"), '=>', ':', 'G'))
 
   class { 'borgbackup':
     repositories => $repos
@@ -18,7 +19,7 @@ class cultuurnet::backup(
 
   Sshkey <<| title == 'backup' |>>
 
-  $configs = inline_template("<%= @configuration.each_pair { |key, value| value.delete_if { |k, v| k == 'encryption' } } %>")
+  $configs = parsejson(regsubst(inline_template("<%= ${configuration}.each_pair { |key, value| value.delete_if { |k, v| k == 'encryption' } } %>"), '=>', ':', 'G'))
 
   class { 'atticmatic':
     configurations => $configs
