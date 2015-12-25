@@ -1,5 +1,5 @@
 class cultuurnet::backup(
-  $configurations     = { 'filesystem' => { source_directories => '/root', encryption => 'none', repository => '/var/backups/borgbackup' } },
+  $configuration      = { 'filesystem' => { source_directories => '/root', encryption => 'none', repository => '/var/backups/borgbackup' } },
   $privkey            = '',
   $server             = false,
   $server_user        = 'root',
@@ -10,15 +10,18 @@ class cultuurnet::backup(
 )
 {
 
+  $repos = inline_template("<%= @configuration.each_pair { |key, value| value.keep_if { |k, v| k == 'repository' or k == 'encryption' or k == 'passphrase' or k == 'borg_rsh' } } %>)
 
   class { 'borgbackup':
-    repositories => $configurations
+    repositories => $repos
   }
 
   Sshkey <<| title == 'backup' |>>
 
+  $configs = inline_template("<%= @configuration.each_pair { |key, value| value.delete_if { |k, v| k == 'encryption' } } %>")
+
   class { 'atticmatic':
-    configurations => $configurations
+    configurations => $configs
   }
 
   file { '/root/.ssh':
