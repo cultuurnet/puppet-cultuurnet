@@ -1,6 +1,5 @@
 class cultuurnet::backup(
-  $repositories       = { 'default' => { path => '/var/backups/borgbackup' } },
-  $configurations     = { 'filesystem' => { source_directories => '/root', repository => '/var/backups/borgbackup' } },
+  $configurations     = { 'filesystem' => { source_directories => '/root', encryption => 'none', repository => '/var/backups/borgbackup' } },
   $privkey            = '',
   $server             = false,
   $server_user        = 'root',
@@ -10,8 +9,10 @@ class cultuurnet::backup(
   $server_hostname    = undef
 )
 {
+
+
   class { 'borgbackup':
-    repositories => $repositories
+    repositories => $configurations
   }
 
   Sshkey <<| title == 'backup' |>>
@@ -49,4 +50,6 @@ class cultuurnet::backup(
       user    => $server_user
     }
   }
+
+  Class['borgbackup'] -> Class['atticmatic']
 }
