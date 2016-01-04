@@ -53,6 +53,14 @@ class cultuurnet::backup(
       options => "command=\"borg serve --restrict-to-path ${server_backupdir}\"",
       user    => $server_user
     }
+
+    user { $server_user:
+      ensure     => 'present',
+      home       => $server_backupdir,
+      managehome => true
+    }
+
+    User[$server_user] -> Ssh_authorized_key['backup']
   }
 
   Class['borgbackup'] -> Class['atticmatic']
