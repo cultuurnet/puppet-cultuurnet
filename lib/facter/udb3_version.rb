@@ -1,4 +1,4 @@
-require 'facter/util/cultuurnetapps.rb'
+require_relative 'util/cultuurnetapps.rb'
 
 Facter.add('udb3_version') do
   setcode do
