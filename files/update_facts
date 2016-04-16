@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+
+require 'puppet/face'
+require 'net/https'
+require 'uri'
+require 'yaml'
+require 'json'
+
+module Fact
+  def self.config(setting)
+    begin
+      orig_stdout = $stdout
+      out = StringIO.new
+      $stdout = out
+      Puppet::Face[:config, :current].print(setting)
+
+      out.string.chomp
+
+    ensure
+      $stdout = orig_stdout
+    end
+  end
+
+  def self.replace(puppetdb_url)
+    Puppet.initialize_settings
+
+    certname = config('certname')
+    environment = config('environment')
+    privatekeydir = config('privatekeydir')
+    certdir = config('certdir')
+    puppetdb_uri = URI.parse("#{puppetdb_url}/v3/commands")
+
+    cacert = "#{certdir}/ca.pem"
+    cert = File.read("#{certdir}/#{certname}.pem")
+    privkey = File.read("#{privatekeydir}/#{certname}.pem")
+
+    connection = Net::HTTP.new(puppetdb_uri.host, puppetdb_uri.port)
+    connection.use_ssl = true
+    connection.ca_file = cacert
+    connection.cert = OpenSSL::X509::Certificate.new(cert)
+    connection.key = OpenSSL::PKey::RSA.new(privkey)
+    connection.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+    request = Net::HTTP::Post.new(puppetdb_uri.request_uri)
+    request.add_field('Accept', 'application/json')
+    request.add_field('Content-Type', 'application/json')
+    request.body = {
+      :command => 'replace facts',
+      :version => 3,
+      :payload => {
+       	:name => certname,
+       	:environment => environment,
+       	:values => YAML.load(%x[facter -py])
+      } 
+    }.to_json
+
+    response = connection.request(request)
+  end
+end
+
+puppetdb_url = ARGV[0]
+
+Fact.replace(puppetdb_url)
