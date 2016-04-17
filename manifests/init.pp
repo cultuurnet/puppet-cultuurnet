@@ -15,6 +15,6 @@ class cultuurnet {
   file { '/usr/local/bin/update_facts':
     ensure => 'file',
     mode   => '0755',
-    source => 'file:///modules/cultuurnet/update_facts'
+    source => 'puppet:///modules/cultuurnet/update_facts'
   }
 }
