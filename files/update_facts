@@ -28,20 +28,20 @@ module Fact
     environment = config('environment')
     privatekeydir = config('privatekeydir')
     certdir = config('certdir')
-    puppetdb_uri = URI.parse("#{puppetdb_url}/v3/commands")
+    puppetdb_command_api_endpoint = URI.parse("#{puppetdb_url}/v3/commands")
 
     cacert = "#{certdir}/ca.pem"
     cert = File.read("#{certdir}/#{certname}.pem")
     privkey = File.read("#{privatekeydir}/#{certname}.pem")
 
-    connection = Net::HTTP.new(puppetdb_uri.host, puppetdb_uri.port)
+    connection = Net::HTTP.new(puppetdb_command_api_endpoint.host, puppetdb_command_api_endpoint.port)
     connection.use_ssl = true
     connection.ca_file = cacert
     connection.cert = OpenSSL::X509::Certificate.new(cert)
     connection.key = OpenSSL::PKey::RSA.new(privkey)
     connection.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
-    request = Net::HTTP::Post.new(puppetdb_uri.request_uri)
+    request = Net::HTTP::Post.new(puppetdb_command_api_endpoint.request_uri)
     request.add_field('Accept', 'application/json')
     request.add_field('Content-Type', 'application/json')
     request.body = {
@@ -51,7 +51,7 @@ module Fact
        	:name => certname,
        	:environment => environment,
        	:values => YAML.load(%x[facter -py])
-      } 
+      }
     }.to_json
 
     response = connection.request(request)
