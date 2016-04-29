@@ -9,23 +9,20 @@ module Puppet::Parser::Functions
           "given (#{arguments.size} for 0)") if arguments.size != 0
 
     begin
-      require 'pg'
+      require 'postgres-pr'
       require 'inifile'
 
       DATABASE_CONFIG_FILE = '/etc/puppetdb/conf.d/database.ini'
       config = IniFile.load(DATABASE_CONFIG_FILE).to_h
 
-      conn = PGconn.connect(
-        :host => config['database']['subname'][/\/\/(.*):/,1],
-        :port => config['database']['subname'][/:(.*)\//,1],
-        :dbname => config['database']['subname'][/.*\/(.*)$/,1],
-        :user => config['database']['username'],
-        :password => config['database']['password']
+      conn = PostgresPR::Connection.new(
+        config['database']['subname'][/.*\/(.*)$/,1],
+        config['database']['username'],
+        config['database']['password'],
+        "tcp://#{config['database']['subname'][/^\/\/[^\/]+/]}"
       )
 
-      res  = conn.exec('select * from certnames where deactivated is not null')
-
-      res.inject([]) { |nodes, row| nodes << row['name'] }
+      conn.query('select name from certnames where deactivated is not null').rows.flatten
     end
   end
 end
