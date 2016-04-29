@@ -9,7 +9,7 @@ module Puppet::Parser::Functions
           "given (#{arguments.size} for 0)") if arguments.size != 0
 
     begin
-      require 'postgres-pr'
+      require 'postgres-pr/connection'
       require 'inifile'
 
       DATABASE_CONFIG_FILE = '/etc/puppetdb/conf.d/database.ini'
