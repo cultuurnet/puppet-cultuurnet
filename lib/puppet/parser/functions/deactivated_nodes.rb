@@ -12,8 +12,8 @@ module Puppet::Parser::Functions
       require 'postgres-pr/connection'
       require 'inifile'
 
-      DATABASE_CONFIG_FILE = '/etc/puppetdb/conf.d/database.ini'
-      config = IniFile.load(DATABASE_CONFIG_FILE).to_h
+      database_config_file = '/etc/puppetdb/conf.d/database.ini'
+      config = IniFile.load(database_config_file).to_h
 
       conn = PostgresPR::Connection.new(
         config['database']['subname'][/.*\/(.*)$/,1],
