@@ -22,7 +22,7 @@ module Puppet::Parser::Functions
         "tcp://#{config['database']['subname'][/^\/\/[^\/]+/]}"
       )
 
-      conn.query('select name from certnames where deactivated is not null').rows.flatten
+      conn.query('select certname from certnames where deactivated is not null').rows.flatten
     end
   end
 end
