@@ -10,12 +10,12 @@ module Facter
         if versions.empty?
           nil
         else
-          versions.split("\n").map do |string|
+          versions.split("\n").inject({}) do |result, string|
             component = string[/(.*):/,1]
             version = string[/:(.*)$/,1]
             commit = version[/\+sha.(.*)$/,1] || ""
 
-            { component => { 'version' => version, 'commit' => commit} }
+            result.merge({ component => { 'version' => version, 'commit' => commit} })
           end
         end
       end
