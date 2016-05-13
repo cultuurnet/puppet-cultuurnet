@@ -1,10 +1,11 @@
-#!/usr/bin/env ruby
+#!/opt/puppetlabs/puppet/bin/ruby
 
 require 'puppet/face'
 require 'net/https'
 require 'uri'
 require 'yaml'
 require 'json'
+require 'date'
 
 module Fact
   def self.config(setting)
@@ -28,7 +29,15 @@ module Fact
     environment = config('environment')
     privatekeydir = config('privatekeydir')
     certdir = config('certdir')
-    puppetdb_command_api_endpoint = URI.parse("#{puppetdb_url}/v3/commands")
+    timestamp = DateTime.now.iso8601
+    params = {
+      :command => 'replace_facts',
+      :version => '4',
+      :certname => certname
+    }
+
+    puppetdb_command_api_endpoint = URI.parse("#{puppetdb_url}/pdb/cmd/v1")
+    puppetdb_command_api_endpoint.query = URI.encode_www_form(params)
 
     cacert = "#{certdir}/ca.pem"
     cert = File.read("#{certdir}/#{certname}.pem")
@@ -45,13 +54,10 @@ module Fact
     request.add_field('Accept', 'application/json')
     request.add_field('Content-Type', 'application/json')
     request.body = {
-      :command => 'replace facts',
-      :version => 3,
-      :payload => {
-       	:name => certname,
-       	:environment => environment,
-       	:values => YAML.load(%x[facter -py])
-      }
+      :certname => certname,
+      :environment => environment,
+      :producer_timestamp => timestamp,
+      :values => YAML.load(%x[facter -py])
     }.to_json
 
     response = connection.request(request)
