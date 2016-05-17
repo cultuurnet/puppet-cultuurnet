@@ -57,7 +57,7 @@ module Fact
       :certname => certname,
       :environment => environment,
       :producer_timestamp => timestamp,
-      :values => YAML.load(%x[facter -py])
+      :values => YAML.load(%x[/opt/puppetlabs/bin/facter -py])
     }.to_json
 
     response = connection.request(request)
