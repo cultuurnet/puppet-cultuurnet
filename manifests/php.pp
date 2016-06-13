@@ -5,30 +5,19 @@ class cultuurnet::php {
   case $::environment {
   'testing':
     {
-      class { 'php::globals': }
-      class { 'php':
-        manage_repos => false,
-        fpm          => false,
-        dev          => false,
-        composer     => false,
-        pear         => false,
-        extensions   => {
-          curl  => { },
-          gd    => { },
-          intl  => { },
-          mysql => { },
-          tidy  => { }
-        }
-      }
+      include php::globals
+      include php
+
+      Class['php::globals'] -> Class['php']
     }
   'production':
     {
-      class { 'php': }
-      class { 'php::extension::curl': }
-      class { 'php::extension::gd': }
-      class { 'php::extension::intl': }
-      class { 'php::extension::mysql': }
-      class { 'php::extension::tidy': }
+      include php
+      include php::extension::curl
+      include php::extension::gd
+      include php::extension::intl
+      include php::extension::mysql
+      include php::extension::tidy
     }
   }
 }
