@@ -2,7 +2,7 @@
 #
 class cultuurnet::php {
 
-  case $environment {
+  case $::environment {
     'testing':
       {
         class { 'php::globals': }
