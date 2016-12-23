@@ -15,11 +15,8 @@ module Facter
             version = string[/:(.*)$/,1]
             commit = version[/\+sha.(.*)$/,1]
 
-            if commit
-              result.merge({ component => { 'version' => version, 'commit' => commit} })
-            else
-              result.merge({ component => { 'version' => version} })
-            end
+            version_hash = { 'version' => version, 'commit' => commit }.reject { |k, v| v.nil? }
+            result.merge({ component => version_hash })
           end
         end
       end
