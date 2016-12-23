@@ -13,9 +13,13 @@ module Facter
           versions.split("\n").inject({}) do |result, string|
             component = string[/(.*):/,1]
             version = string[/:(.*)$/,1]
-            commit = version[/\+sha.(.*)$/,1] || ""
+            commit = version[/\+sha.(.*)$/,1]
 
-            result.merge({ component => { 'version' => version, 'commit' => commit} })
+            if commit
+              result.merge({ component => { 'version' => version, 'commit' => commit} })
+            else
+              result.merge({ component => { 'version' => version} })
+            end
           end
         end
       end
