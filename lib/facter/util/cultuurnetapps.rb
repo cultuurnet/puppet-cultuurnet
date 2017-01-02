@@ -5,7 +5,7 @@ module Facter
     module CultuurNetApps
       def self.get_version(prefix)
         command = "dpkg-query -f='\$\{binary:Package\}:\$\{Version\}\\n' -W '#{prefix}*' 2> /dev/null"
-        versions = Facter::Core::Execution.exec(command)
+        versions = Facter::Core::Execution.execute(command)
 
         if versions.empty?
           nil
