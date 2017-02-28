@@ -71,6 +71,11 @@ class cultuurnet::icinga2::server (
     }
   }
 
+  sshkey { '127.0.0.1':
+    type => 'rsa',
+    key  => $::sshrsakey
+  }
+
   create_resources(
     ::icinga2::object::apply_notification_to_host,
     hiera_hash('icinga2::object::apply_notification_to_host', {})
