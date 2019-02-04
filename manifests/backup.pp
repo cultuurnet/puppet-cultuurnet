@@ -1,7 +1,7 @@
 class cultuurnet::backup(
-  $configuration      = { 'filesystem' => { source_directories => '/root', encryption => 'none', repository => '/var/backups/borgbackup' } },
-  $privkey            = '',
+  $privkey,
   $server             = false,
+  $configuration      = {},
   $server_user        = 'root',
   $server_backupdir   = '/var/backups',
   $server_pubkey      = undef,
