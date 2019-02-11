@@ -7,8 +7,4 @@ class cultuurnet {
     '::cultuurnet::sshkeys':;
     '::cultuurnet::users':;
   }
-
-  if $settings::storeconfigs {
-    class { '::cultuurnet::knownhosts': }
-  }
 }
