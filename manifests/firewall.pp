@@ -1,6 +1,13 @@
 # == Class: cultuurnet::firewall
 #
 class cultuurnet::firewall {
-  include ::firewall
-  create_resources(firewall, hiera_hash('firewall', {}))
+
+  # unless $::clientcert == 'puppetserver.eu-west-1.compute.internal' {
+
+    include ::firewall
+
+    resources { 'firewall': purge => true }
+
+    create_resources(firewall, hiera_hash('firewall', {}))
+  # }
 }
