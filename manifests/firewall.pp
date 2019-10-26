@@ -4,10 +4,6 @@ class cultuurnet::firewall {
 
   # unless $::clientcert == 'puppetserver.eu-west-1.compute.internal' {
 
-    include ::firewall
-
-    resources { 'firewall': purge => true }
-
     firewall { '200 accept nrpe traffic':
       proto  => 'tcp',
       dport  => '5666',
