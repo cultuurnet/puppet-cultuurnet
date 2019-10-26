@@ -16,6 +16,12 @@ class cultuurnet::icinga2::client () {
     }
   }
 
+  firewall { '200 accept nrpe traffic':
+    proto  => 'tcp',
+    dport  => '5666',
+    action => 'accept'
+  }
+
   create_resources(
     ::icinga2::checkplugin,
     hiera_hash('icinga2::checkplugin', {})
