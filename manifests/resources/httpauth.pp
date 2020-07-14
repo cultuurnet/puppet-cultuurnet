@@ -23,4 +23,12 @@ class cultuurnet::resources::httpauth {
       require  => 'Class[Apache]',
       before   => 'File[/etc/apache2/uitmetvlieg-htpasswd]',
       }
+    httpauth {'kanarie':
+      file     => '/etc/apache2/uitmetvlieg-htpasswd',
+      password => 'Fei5ooJuuwaco',
+      require  => 'Class[Apache]',
+      before   => 'File[/etc/apache2/uitmetvlieg-htpasswd]',
+      }
+
+
 }
