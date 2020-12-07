@@ -206,9 +206,6 @@ class cultuurnet::icinga2::server (
   Icinga2::Object::User <<||>>
   Icinga2::Object::Usergroup <<||>>
 
-  # Add sshkeys for all clients
-  Sshkey <<||>>
-
   # Remove hosts that are deactivated in PuppetDB
   puppetdb_query('nodes[certname] { deactivated is not null }').each |$node| {
     ::icinga2::object::host { $node['certname']:
