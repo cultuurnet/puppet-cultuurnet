@@ -7,6 +7,7 @@ class cultuurnet::icinga2::server (
   $db_port        = '5432',
   $db_user        = 'icinga2',
   $server_db_type = 'pgsql',
+  $manage_repos   = false
 ) {
   class { '::icinga2::server':
     db_host                       => $db_host,
@@ -16,6 +17,7 @@ class cultuurnet::icinga2::server (
     db_user                       => $db_user,
     server_db_type                => $server_db_type,
     server_install_nagios_plugins => false,
+    manage_repos                  => $manage_repos
   }
 
   case $server_db_type {
