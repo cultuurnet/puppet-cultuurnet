@@ -13,6 +13,7 @@ class cultuurnet::icinga2::client () {
       os                  => $::kernel,
       virtual_machine     => $::is_virtual,
       puppet_certname     => $::clientcert,
+      puppet_environment  => $::agent_specified_environment,
     }
   }
 
