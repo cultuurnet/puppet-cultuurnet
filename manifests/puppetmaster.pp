@@ -1,7 +1,7 @@
 # == Class: cultuurnet::puppetmaster
 #
 class cultuurnet::puppetmaster () {
-  require ::apache
+  include ::apache
 
   class {
     '::apache::mod::headers':;

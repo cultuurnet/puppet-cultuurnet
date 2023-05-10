@@ -22,8 +22,8 @@ class cultuurnet::icinga2::server (
 
   case $server_db_type {
     'pgsql': {
-      require ::postgresql::server
-      require ::cultuurnet::postgresql
+      include ::postgresql::server
+      include ::cultuurnet::postgresql
 
       ::icinga2::object::idopgsqlconnection { $server_db_type:
         categories       => [

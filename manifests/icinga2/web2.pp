@@ -8,7 +8,7 @@ class cultuurnet::icinga2::web2 (
   $db_user        = 'icingaweb2',
   $server_db_type = 'mysql',
 ) {
-  require ::icinga2::server
+  include ::icinga2::server
 
   file { '/etc/apache2/sites-enabled/icinga-web-2.conf':
     ensure  => present,

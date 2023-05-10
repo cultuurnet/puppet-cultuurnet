@@ -1,7 +1,7 @@
 # == Class: cultuurnet::apache
 #
 class cultuurnet::apache {
-  require ::apache
+  include ::apache
 
   class {
     '::cultuurnet::apache::monitor':;

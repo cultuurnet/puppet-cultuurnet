@@ -1,8 +1,8 @@
 # == Class: cultuurnet::apache::monitor
 #
 class cultuurnet::apache::monitor {
-  require ::apache
-  require ::collectd
+  include ::apache
+  include ::collectd
 
   class { '::apache::mod::status':
     allow_from      => [ '127.0.0.1', '::1', ],
